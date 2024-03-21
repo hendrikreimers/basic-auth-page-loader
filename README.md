@@ -8,6 +8,8 @@ Please note, this was a "fun project" and, as such, it might not adhere to all b
 
 This is a Progressive Web Application (PWA) designed to facilitate automatic authentication for restricted websites using basic authentication. By leveraging encrypted query parameters and local storage, this application can streamline access to services requiring credentials, thereby improving user experience.
 
+I created this WebApp to eliminate the repetitive process of entering usernames and passwords on my smartphone. This solution acts as a proxy, allowing me to simply input a code to automatically access sites protected by Basic Auth. It enhances user experience by also supporting form submissions and displaying responses, effectively streamlining web interactions on mobile platforms.
+
 ## Features
 
 - Automatic credential encryption and decryption.
