@@ -101,5 +101,45 @@ export class HTMLContentHandlerService {
 
         this.setCSSFromParsedHTML(parsedDocument, false);
         this.replaceBodyContent(parsedDocument);
+        this.executeExternalScripts(parsedDocument);
+    }
+
+    /**
+     * Extracts and executes external scripts from the parsed document.
+     *
+     * @param {Document} parsedDocument - The parsed HTML document containing the scripts.
+     */
+    private executeExternalScripts(parsedDocument: Document): void {
+        const scripts: NodeListOf<HTMLScriptElement> = parsedDocument.querySelectorAll('script');
+
+        scripts.forEach((script: HTMLScriptElement) => {
+            if (script.src) {
+                // Kopiere das src-Attribut und füge das Skript dem Dokument hinzu
+                const newScript: HTMLScriptElement = document.createElement('script');
+                newScript.src = script.src;
+                newScript.async = false; // Sorgt dafür, dass die Skripte in der Reihenfolge geladen werden
+                document.head.appendChild(newScript);
+
+                // Optional: Eventlistener, um sicherzustellen, dass das Skript geladen wurde
+                newScript.onload = () => {
+                    console.log(`Script ${script.src} geladen und ausgeführt.`);
+                    // window.document.dispatchEvent(new Event("DOMContentLoaded", {
+                    //     bubbles: true,
+                    //     cancelable: true
+                    // }));
+                    // window.document.dispatchEvent(new Event("load", {
+                    //     bubbles: true,
+                    //     cancelable: true
+                    // }));
+                    // window.document.dispatchEvent(new Event("onLoad", {
+                    //     bubbles: true,
+                    //     cancelable: true
+                    // }));
+                };
+
+                // Entferne das ursprüngliche Script-Tag, um doppelte Ausführung zu vermeiden
+                script.remove();
+            }
+        });
     }
 }
