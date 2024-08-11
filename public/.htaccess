@@ -1,0 +1,12 @@
+Modpagespeed Off
+
+RewriteBase /pwa/BasicAuthPageLoader/
+RewriteRule manifest.json$ manifest.php [L,QSA]
+
+RewriteCond %{REQUEST_URI} ^/pwa/BasicAuthPageLoader/ [NC]
+RewriteCond %{HTTP_USER_AGENT} !^.*iPhone.*$ [NC]
+#RewriteCond %{HTTP_USER_AGENT} !^.*iPad.*$ [NC]
+#RewriteCond %{HTTP_USER_AGENT} !^.*iPod.*$ [NC]
+#RewriteCond %{HTTP_USER_AGENT} !^.*Firefox.*$ [NC]
+RewriteRule ^ - [R=404,L]
+

@@ -1,10 +1,19 @@
+<?php
+
+$expr = '/([a-zA-Z0-9.\-_]+)/miu';
+$c = '';
+if ( preg_match($expr, $_GET['c']) ) {
+    $c = strip_tags($_GET['c']);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>basic-auth-page-loader</title>
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="./manifest.json?c=<?= $c; ?>">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 <body>

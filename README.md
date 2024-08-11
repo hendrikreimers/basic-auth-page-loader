@@ -47,9 +47,13 @@ I created this WebApp to eliminate the repetitive process of entering usernames 
 
 ## Building for Production
 
-To build the application for production, run:
+1. To build the application for production, run:
     ```bash
     npm run build
+    ```
+2. Rename in `dist` folder `index.html` to `index.php`
+3. Modify your `manifest.php` and `.htaccess` 
+4. deploy
 
 ## Contributing
 
