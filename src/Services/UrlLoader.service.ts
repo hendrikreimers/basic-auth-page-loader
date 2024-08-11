@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {CustomError} from "../Types/CustomError.type";
 import {BasicAuthHeaderInterface} from "../Interfaces/BasicAuthHeader.interface";
 
@@ -41,7 +41,7 @@ export class UrlLoaderService {
             //     withCredentials: false // Prevent the browser from asking for credentials
             // };
 
-            const response = ( authHeaders ) ? await axios.post(url, formData, authHeaders) : await axios.post(url, formData);
+            const response: AxiosResponse<any, any> = ( authHeaders ) ? await axios.post(url, formData, authHeaders) : await axios.post(url, formData);
 
             return response.data;
         } catch (error) {

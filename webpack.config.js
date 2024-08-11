@@ -25,7 +25,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'public/*.json', to: '[name][ext]' },
+                { from: 'public/*.php', to: '[name][ext]' },
                 { from: 'public/*.js', to: '[name][ext]' },
                 { from: 'public/favicon.ico', to: 'favicon.ico' },
                 { from: 'public/assets', to: 'assets' },

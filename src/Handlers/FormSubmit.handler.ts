@@ -16,21 +16,44 @@ async function formSubmitHandler(event: SubmitEvent, form: HTMLFormElement, requ
     // Prevent default form handling
     event.preventDefault();
 
+    // Extract the URI without filename
+    url = extractUrlWithoutFile(url);
+
     // Get form data and change target uri
     const formData: FormData = new FormData(form);
     const actionUrl: string = `${url}${form.getAttribute('action')}`; // Ergänzen der Ziel-URL
 
     // Prepare services
-    const urlLoaderService = new UrlLoaderService;
-    const htmlContentHandlerService = new HTMLContentHandlerService();
+    const urlLoaderService: UrlLoaderService = new UrlLoaderService;
+    const htmlContentHandlerService: HTMLContentHandlerService = new HTMLContentHandlerService();
 
     try {
         // Get content and put it into the app
-        const response = await urlLoaderService.loadPageByPost(actionUrl, formData, requestHeaders);
+        const response: string = await urlLoaderService.loadPageByPost(actionUrl, formData, requestHeaders);
         htmlContentHandlerService.processAndInsertHTML(response); // Verwenden Sie die Methode processAndInsertHTML
     } catch (error) {
         errorHandler(new CustomError('Error loading page', error));
     }
+}
+
+/**
+ * Extracts the full URL without the file at the end.
+ *
+ * @param {string} url - The full URL from which the file needs to be removed.
+ * @returns {string} - The URL without the file.
+ */
+function extractUrlWithoutFile(url: string): string {
+    // Create a new URL object
+    const urlObj: URL = new URL(url);
+
+    // Extract the pathname
+    const pathname: string = urlObj.pathname;
+
+    // Remove the last part (filename) from the path using regex
+    const pathWithoutFile: string = pathname.replace(/\/[^\/]*$/, '/');
+
+    // Reconstruct the URL without the file
+    return `${urlObj.origin}${pathWithoutFile}`;
 }
 
 export default formSubmitHandler;

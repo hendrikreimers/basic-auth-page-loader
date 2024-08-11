@@ -8,6 +8,7 @@ import KeypadHelper from "../Helpers/Keypad.helpers";
 import CryptoService from "../Services/Crypto.service";
 import {CredentialsInterface} from "../Interfaces/Credentials.interface";
 import EncryptorHelper from "../Helpers/Encryptor.helpers";
+import {BasicAuthHeaderInterface} from "../Interfaces/BasicAuthHeader.interface";
 
 /**
  * Main App functionality
@@ -71,11 +72,11 @@ async function loadContent(storageKey: string) {
         setMessageToContent('ERROR: Missing credentials');
     } else {
         // Initialize the credential header
-        const requestHeaders = (credentials.user && credentials.pass) ?
+        const requestHeaders: BasicAuthHeaderInterface | undefined = (credentials.user && credentials.pass) ?
             urlLoaderService.createBasicAuthHeader(credentials.user, credentials.pass) : undefined;
 
         // Load the website which is locked by basic auth
-        const htmlContent = await urlLoaderService.loadPage('https://' + credentials.url, requestHeaders);
+        const htmlContent: string = await urlLoaderService.loadPage('https://' + credentials.url, requestHeaders);
 
         // Process the loaded content into the PWA site
         htmlContentHandler.processAndInsertHTML(htmlContent);
