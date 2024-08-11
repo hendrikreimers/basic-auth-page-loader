@@ -33,7 +33,7 @@ if ( preg_match($expr, $_GET['c']) ) {
             "sizes": "512x512"
         }
     ],
-    "start_url": "/pwa/LightAppointments/?c=<?= $c; ?>",
+    "start_url": "/pwa/BasicAuthPageLoader/?c=<?= $c; ?>",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff"
