@@ -51,8 +51,8 @@ I created this WebApp to eliminate the repetitive process of entering usernames 
     ```bash
     npm run build
     ```
-2. Rename in `dist` folder `index.html` to `index.php`
-3. Modify your `manifest.php` and `.htaccess` 
+2. Delete in `dist` folder the `index.php` 
+3. Rename in `dist` folder `index.html` to `index.php` 
 4. deploy
 
 ## Contributing

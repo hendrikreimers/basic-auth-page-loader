@@ -7,6 +7,9 @@ if ( preg_match($expr, $_GET['c']) ) {
     $c = strip_tags($_GET['c']);
 }
 
+$currentPath = $_SERVER['REQUEST_URI'];
+$basePath = dirname($currentPath);
+
 ?>
 {
     "short_name": "BasicAuthPageLoader",
@@ -33,7 +36,7 @@ if ( preg_match($expr, $_GET['c']) ) {
             "sizes": "512x512"
         }
     ],
-    "start_url": "/pwa/BasicAuthPageLoader/?c=<?= $c; ?>",
+    "start_url": "<?= $basePath ?>?c=<?= $c; ?>",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff"

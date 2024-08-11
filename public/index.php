@@ -6,14 +6,17 @@ if ( preg_match($expr, $_GET['c']) ) {
     $c = strip_tags($_GET['c']);
 }
 
+$currentPath = $_SERVER['REQUEST_URI'];
+$basePath = dirname($currentPath);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>basic-auth-page-loader</title>
-    <link rel="manifest" href="./manifest.json?c=<?= $c; ?>">
+    <link rel="manifest" href="<?= $$basePath ?>manifest.json?c=<?= $c; ?>">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 <body>
