@@ -42,22 +42,27 @@ $basePath = dirname($currentPath);
 
 <div id="encryptor" style="display: none;">
     <div>
-        User: <input type="text" id="user" />
+        <label for="user">User:</label>
+        <input type="text" id="user" />
     </div>
     <div>
-        Pass: <input type="text" id="pass" />
+        <label for="pass">Pass:</label>
+        <input type="text" id="pass" />
     </div>
     <div>
-        Key (Num): <input type="number" id="key" />
+        <label for="key">Key (Num):</label>
+        <input type="number" id="key" />
     </div>
     <div>
-        URL: <input type="text" id="url" />
+        <label for="url">URL:</label>
+        <input type="text" id="url" />
     </div>
     <div>
         <button id="encrypt">Encrypt</button>
     </div>
     <div>
-        <input type="text" readonly id="output" />
+        <input type="text" readonly id="output" class="hidden" /><br>
+        <a href="#" id="outputLink" class="hidden">Go to final site</a>
     </div>
 </div>
 

@@ -77,3 +77,20 @@ button:focus {
     padding: 10px;
     height: 25px;
 }
+
+#encryptor label {
+    display: block;
+}
+
+#encryptor div {
+    margin: 10px;
+}
+
+a#outputLink {
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.hidden {
+    display: none !important;
+}

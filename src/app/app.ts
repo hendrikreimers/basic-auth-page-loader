@@ -14,31 +14,39 @@ import {BasicAuthHeaderInterface} from "../Interfaces/BasicAuthHeader.interface"
  * Main App functionality
  *
  */
-async function appMain() {
+async function appMain(): Promise<void> {
     try {
         // Add reload event to the reload button
         addReloadButtonEvent('reloadBtn');
 
         // Initialize services for usage
-        const htmlContentHandler = new HTMLContentHandlerService();
-        const keypadHelper = new KeypadHelper();
-        const encryptorHelper = new EncryptorHelper();
+        const htmlContentHandler: HTMLContentHandlerService = new HTMLContentHandlerService();
+        const keypadHelper: KeypadHelper = new KeypadHelper();
+        const encryptorHelper: EncryptorHelper = new EncryptorHelper();
+        const queryParamService: QueryParamService = new QueryParamService();
 
         // Load app css
         htmlContentHandler.appendAppStyles();
 
         // Try to find an existing key in the localStorage
-        const storageKey = localStorage.getItem('key') || '';
+        const storageKey: string = localStorage.getItem('key') || '';
+        const expiry: number = parseInt(localStorage.getItem('expiry') || '0');
+        const now: number = new Date().getTime();
 
-        if ( storageKey.length > 0 ) {
+        if ( !queryParamService.getParameter('c') ) {
+            localStorage.clear();
+        }
+
+        if ( storageKey.length > 0 && expiry > now && queryParamService.getParameter('c') ) {
             await loadContent(storageKey);
             keypadHelper.removeKeypad();
         } else {
-            const queryParamService = new QueryParamService();
+            const queryParamService: QueryParamService = new QueryParamService();
             if ( queryParamService.getParameter('c') ) {
                 keypadHelper.setVisible();
-                keypadHelper.init(async (event: MouseEvent, el: HTMLElement) => {
-                    await loadContent(keypadHelper.getValue());
+                keypadHelper.init(async (event: MouseEvent, el: HTMLElement): Promise<void> => {
+                    const newExpiry: number = now + (60 * 60 * 24 * 30); // in 30 days ask for key again
+                    await loadContent(keypadHelper.getValue(), newExpiry);
                 });
             } else {
                 encryptorHelper.setVisible();
@@ -50,21 +58,24 @@ async function appMain() {
     }
 }
 
-async function loadContent(storageKey: string) {
+async function loadContent(storageKey: string, newExpiry?: number): Promise<void> {
     // Initialize services
-    const queryParamService = new QueryParamService();
-    const urlLoaderService = new UrlLoaderService;
-    const htmlContentHandler = new HTMLContentHandlerService();
-    const keypadHelper = new KeypadHelper();
+    const queryParamService: QueryParamService = new QueryParamService();
+    const urlLoaderService: UrlLoaderService = new UrlLoaderService;
+    const htmlContentHandler: HTMLContentHandlerService = new HTMLContentHandlerService();
+    const keypadHelper: KeypadHelper = new KeypadHelper();
 
     // Decrypt the given credential URL
-    const credentialsCrypted = queryParamService.getParameter('c') || '';
-    const cryptoService = new CryptoService();
+    const credentialsCrypted: string = queryParamService.getParameter('c') || '';
+    const cryptoService: CryptoService = new CryptoService();
     const credentials: CredentialsInterface = JSON.parse(await cryptoService.decrypt(credentialsCrypted, storageKey));
+
+    const expiry: number = ( newExpiry ) ? newExpiry : parseInt(localStorage.getItem('expiry') || '0');
 
     // Save the key to local storage
     localStorage.clear();
     localStorage.setItem('key', storageKey);
+    localStorage.setItem('expiry', expiry.toString());
 
     // Load the page or show error message
     if ( !credentials || (!credentials.user && !credentials.pass) ) {

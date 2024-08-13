@@ -52,7 +52,7 @@ export class HTMLContentHandlerService {
     }
 
     appendAppStyles() {
-        const linkElement = document.createElement('link');
+        const linkElement: HTMLLinkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
         linkElement.href = stylesUrl; // Hier wird der Pfad zur CSS-Datei verwendet
         document.head.appendChild(linkElement);
@@ -122,19 +122,7 @@ export class HTMLContentHandlerService {
 
                 // Optional: Eventlistener, um sicherzustellen, dass das Skript geladen wurde
                 newScript.onload = () => {
-                    console.log(`Script ${script.src} geladen und ausgeführt.`);
-                    // window.document.dispatchEvent(new Event("DOMContentLoaded", {
-                    //     bubbles: true,
-                    //     cancelable: true
-                    // }));
-                    // window.document.dispatchEvent(new Event("load", {
-                    //     bubbles: true,
-                    //     cancelable: true
-                    // }));
-                    // window.document.dispatchEvent(new Event("onLoad", {
-                    //     bubbles: true,
-                    //     cancelable: true
-                    // }));
+                    console.log(`Script ${script.src} loaded und ran.`);
                 };
 
                 // Entferne das ursprüngliche Script-Tag, um doppelte Ausführung zu vermeiden
