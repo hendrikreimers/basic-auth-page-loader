@@ -45,7 +45,7 @@ async function appMain(): Promise<void> {
             if ( queryParamService.getParameter('c') ) {
                 keypadHelper.setVisible();
                 keypadHelper.init(async (event: MouseEvent, el: HTMLElement): Promise<void> => {
-                    const newExpiry: number = now + (60 * 60 * 24 * 30); // in 30 days ask for key again
+                    const newExpiry: number = now + (1000 * 60 * 60 * 24 * 10); // in 10 days ask for key again
                     await loadContent(keypadHelper.getValue(), newExpiry);
                 });
             } else {
